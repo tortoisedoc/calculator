@@ -15,7 +15,7 @@ class AcceptanceTests(TestCase):
         
     def __send_process_command (self, _cmd):
         logging.debug ("Sending %s ...." % _cmd)
-        cmd_result = self.process_pipe.communicate(input=b"%s" % _cmd)[0]
+        cmd_result = self.process_pipe.communicate(input=b"%s\x04" % _cmd)[0]
         logging.debug (" -----> Result %s" % cmd_result)
         return cmd_result
         

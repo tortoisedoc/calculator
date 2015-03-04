@@ -11,5 +11,6 @@ Parser::~Parser(void){
 
 bool Parser::Parse(t_string_list* list){	
 	std::cout << "TEST OUTPUT";
+	while 
 	return false;
 }
