@@ -2,17 +2,13 @@
 #include "Tokenizer.h"
 
 
-Tokenizer::Tokenizer(void):m_tokens("()0123456789+-/*\x04"){
-}
+Tokenizer::Tokenizer(t_token_list &_error_list):ErrorClass(_error_list){}
 
-
-Tokenizer::~Tokenizer(void){
-}
-
-void Tokenizer::Tokenize(std::string &_in_str, t_string_list* _tokens){	
+void Tokenizer::Tokenize(std::string &_in_str, t_token_list* _tokens){
 	std::string::iterator in_str_runner = _in_str.begin();
-	std::string temp_token = "";
-	while (in_str_runner != _in_str.end()){
+    std::string temp_token = "";
+    bool stop = false;
+    while (in_str_runner != _in_str.end()){
 		switch(*in_str_runner){
 			case '0':
 			case '1':
@@ -24,29 +20,27 @@ void Tokenizer::Tokenize(std::string &_in_str, t_string_list* _tokens){
 			case '7':
 			case '8':
 			case '9':
-				temp_token+=(*in_str_runner);
-				break;
-			case '(':
+                temp_token+=(*in_str_runner);
+                break;
+            case '(':
 			case ')':
 			case '+':
 			case '-':
 			case '/':
 			case '*':
-			case '\x04':
-			case ' ':
-				if (temp_token != ""){
-					_tokens->push_back(temp_token);				
-				}
-				if ((*in_str_runner) != ' '){
-					temp_token = (*in_str_runner);
-					_tokens->push_back(temp_token);
-					temp_token = "";
-				}
-				break;
+                if (temp_token.length() > 0){
+                    _tokens->push_back(temp_token); //Save nr on stack
+                    temp_token = "";
+                }
+                temp_token += *in_str_runner;
+                _tokens->push_back(temp_token);
+                temp_token = "";
+                break;
 			default:
-				std::cout << " ERROR; Token not recognized " << (*in_str_runner);
+                m_errors->push_back(std::string(" --> ERROR; Token not recognized ") + (*in_str_runner) + "\n");
 		}
-		//_tokens->push_back(
 		in_str_runner++;
 	}	
+    if (temp_token != "")
+        _tokens->push_back(temp_token);
 }

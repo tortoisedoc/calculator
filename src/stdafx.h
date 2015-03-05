@@ -5,16 +5,11 @@
 
 #pragma once
 
-#include "targetver.h"
-
-#include <list>
-#include <string>
 #include <iostream>
 #include <sstream>
 #include <stdio.h>
-#include <tchar.h>
+#include <string>
+#include <list>
 
-typedef std::list<std::string> t_string_list;
-
-// TODO: reference additional headers your program requires here
-
+typedef std::string t_token;
+typedef std::list<t_token> t_token_list;

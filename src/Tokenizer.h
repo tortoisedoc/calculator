@@ -1,13 +1,11 @@
 #pragma once
 #include "stdafx.h"
+#include "Errorclass.h"
 
-class Tokenizer
+class Tokenizer: public ErrorClass
 {
-private:
-	std::string m_tokens;
 public:
-	Tokenizer(void);
-	void Tokenize(std::string &_in_str, t_string_list * _tokens);
-	~Tokenizer(void);
+    Tokenizer(t_token_list &_error_list);
+    void Tokenize(std::string &_in_str, t_token_list * _tokens);
 };
 
