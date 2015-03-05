@@ -21,26 +21,27 @@ int main(int argc, char* argv[]){
     Parser * parser = new Parser(error_list);
 
 	while (!stop){
-        char in;
-        bool line = false;
-        while (!feof(stdin)){
-            fread(&in, 1, 1, stdin);
-            stop = is_eof(in);
-            temp_input += in;
-            line = (in == '\n') || stop;
-        }
-        if (!stop){
-            error_list.clear(); //Clear error list
-            tokenizer->Tokenize(temp_input, &token_list);
-            parser->Parse(&token_list);
-            if (error_list.size() > 0){
-                std::cout << "Errors :\n";
-                while (error_list.size() > 0){
-                    std::cout << "\t->" << error_list.front();
-                    error_list.pop_front();
+        char temp[200] = { 0 };
+
+        do{
+            int readed = read(0, temp, 200);
+            temp_input = temp;
+            stop = (temp_input.rfind("\n") == std::string::npos) || (readed == 0);
+            if (!stop){
+                error_list.clear(); //Clear error list
+                tokenizer->Tokenize(temp_input, &token_list);
+                if (!stop){
+                    parser->Parse(&token_list);
+                    if (error_list.size() > 0){
+                        std::cout << "Errors :\n";
+                        while (error_list.size() > 0){
+                            std::cout << "\t->" << error_list.front();
+                            error_list.pop_front();
+                        }
+                    }
                 }
             }
-        }
+        }while (!stop);
 	}
 	return 0;
 }

@@ -7,7 +7,7 @@ Tokenizer::Tokenizer(t_token_list &_error_list):ErrorClass(_error_list){}
 void Tokenizer::Tokenize(std::string &_in_str, t_token_list* _tokens){
 	std::string::iterator in_str_runner = _in_str.begin();
     std::string temp_token = "";
-    bool stop = false;
+
     while (in_str_runner != _in_str.end()){
 		switch(*in_str_runner){
 			case '0':
