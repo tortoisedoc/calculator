@@ -88,7 +88,7 @@ class FunctionalTests(BaseTest):
         self.execute_test("3+-1", "2")
 
     def test_with_number_and_multi_new_line(self):
-        self.execute_test("3+-1\n\n", "2")
+        self.execute_test("3+-1\n\n", "2")        
 
 class AcceptanceTests(BaseTest):
 

@@ -14,10 +14,9 @@ Parser::~Parser(void){
 
 void Parser::Parse(t_token_list* list){
     while (list->size() > 0){
-       std::cout << this->ParseExpression(list) << "\n";
+        std::cout << this->ParseExpression(list) << "\n";
     }
 }
-
 
 t_token Parser::PopList(t_token_list *_token_list){
     t_token token = _token_list->front();
@@ -44,11 +43,14 @@ int Parser::ParseExpression(t_token_list * _token_list){
         if (_token_list->size() > 0){
             if (Utils::IsInSet("+-", _token_list->front())){ //Check for + / -
                 operation = this->PopList(_token_list);
-                if (!operation.compare("+")){
-                    return first_nr + this->ParseTerm(_token_list);;
-                }else if (!operation.compare("-")){
-                    return first_nr - this->ParseTerm(_token_list);;
-                }
+                int second_term = this->ParseTerm(_token_list);
+                if (m_errors->size() == 0){
+                    if (!operation.compare("+")){
+                        return first_nr + second_term;
+                    }else if (!operation.compare("-")){
+                        return first_nr - second_term;
+                    }
+                }else return 0;
             }
         }
         return first_nr; //Only one Term
@@ -76,10 +78,12 @@ int Parser::ParseTerm(t_token_list * _token_list){
                     }
                 }else if (!operation.compare("%")){
                     int second_factor = this->ParseFactor(_token_list);
-                    if (first_factor >=0)
-                        return first_factor % second_factor;
-                    else
-                        return second_factor + (first_factor % second_factor);
+                    if (m_errors->size() == 0){
+                        if (first_factor >=0)
+                            return first_factor % second_factor;
+                        else
+                            return second_factor + (first_factor % second_factor);
+                    }else return 0;
                 }else if (!operation.compare("*")){
                     return first_factor * this->ParseFactor(_token_list);;
                 }
