@@ -29,15 +29,16 @@ int main(int argc, char* argv[]){
             stop = (temp_input.rfind("\n") == std::string::npos) || (readed == 0);
             if (!stop){
                 error_list.clear(); //Clear error list
+                token_list.clear(); //Clear token list
                 tokenizer->Tokenize(temp_input, &token_list);
-                if (!stop){
+                if (error_list.size() == 0){
                     parser->Parse(&token_list);
-                    if (error_list.size() > 0){
-                        std::cout << "Errors :\n";
-                        while (error_list.size() > 0){
-                            std::cout << "\t->" << error_list.front() << "\n";
-                            error_list.pop_front();
-                        }
+                }
+                if (error_list.size() > 0){
+                    std::cout << "Errors :\n";
+                    while (error_list.size() > 0){
+                        std::cout << "\t->" << error_list.front() << "\n";
+                        error_list.pop_front();
                     }
                 }
             }
