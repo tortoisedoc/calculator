@@ -2,6 +2,7 @@
 #include "stdafx.h"
 #include "Parser.h"
 #include <istream>
+#include <cmath>
 
 Parser::Parser(std::string _id, t_token_list &_error_list):ErrorClass(_id, _error_list){
 }
@@ -67,8 +68,10 @@ int Parser::ParseTerm(t_token_list * _token_list){
                 t_token operation = this->PopList(_token_list);
                 if (!operation.compare("/")){
                     int dividend = this->ParseFactor(_token_list);
-                    if (dividend != 0)
-                        return first_factor / dividend;
+                    if (dividend != 0){
+                        float div_result = (float)first_factor / (float)dividend;
+                        return floor(div_result);
+                    }
                     else{
                         log(t_token ("Error : Division by 0"));
                         return 0;

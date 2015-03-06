@@ -52,6 +52,12 @@ class FunctionalTests(BaseTest):
     def test_division(self):
         self.execute_test("12/4", "3")
     
+    def test_division_round_down(self):
+        self.execute_test("8/3", "2")
+
+    def test_division_negative_round_down(self):
+        self.execute_test("-8/3", "-3")
+
     def test_division(self):
         self.execute_test("12%7", "5")
 
