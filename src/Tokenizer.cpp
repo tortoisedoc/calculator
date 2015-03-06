@@ -12,22 +12,24 @@ void Tokenizer::Tokenize(std::string &_in_str, t_token_list* _tokens){
         const std::string op_set = "()+-/*%";
         const std::string numbers_set = "0123456789";
         std::string value;
-        value = (*in_str_runner);
+        if ((*in_str_runner) != '\n'){
+            value = (*in_str_runner);
 
-        if (Utils::IsInSet(numbers_set, value)){
-            temp_token+=(*in_str_runner);
-        }
-        else if (Utils::IsInSet(op_set, value)){
-            if (temp_token.length() > 0){
-                _tokens->push_back(temp_token); //Save nr on stack
-                temp_token = "";
+            if (Utils::IsInSet(numbers_set, value)){
+                temp_token+=(*in_str_runner);
             }
-            temp_token += *in_str_runner;
-            _tokens->push_back(temp_token);
-            temp_token = "";
-        }else if (*in_str_runner != '\n'){
-            log (std::string(" --> ERROR; Token not recognized :'") + (*in_str_runner) + "'\n");
-		}
+            else if (Utils::IsInSet(op_set, value)){
+                if (temp_token.length() > 0){
+                    _tokens->push_back(temp_token); //Save nr on stack
+                    temp_token = "";
+                }
+                temp_token += *in_str_runner;
+                _tokens->push_back(temp_token);
+                temp_token = "";
+            }else {
+                log (std::string(" --> ERROR; Token not recognized :'") + (*in_str_runner) + "'\n");
+            }
+        }
 		in_str_runner++;
 	}	
     if (temp_token != "")

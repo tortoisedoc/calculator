@@ -5,6 +5,7 @@
 #include "stdio.h"
 #include "Tokenizer.h"
 #include "Parser.h"
+#include <cstring>
 
 
 bool is_eof(wchar_t _in_char){
@@ -24,6 +25,7 @@ int main(int argc, char* argv[]){
         char temp[200] = { 0 };
 
         do{
+            memset (temp, 0, 200);
             int readed = read(0, temp, 200);
             temp_input = temp;            
             stop = (temp_input.rfind("\n") == std::string::npos) || (readed == 0);
