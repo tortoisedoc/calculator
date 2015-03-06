@@ -2,10 +2,10 @@
 #include "Tokenizer.h"
 
 
-Tokenizer::Tokenizer(t_token_list &_error_list):ErrorClass(_error_list){}
+Tokenizer::Tokenizer(std::string _id, t_token_list &_error_list):ErrorClass(_id, _error_list){}
 
 void Tokenizer::Tokenize(std::string &_in_str, t_token_list* _tokens){
-	std::string::iterator in_str_runner = _in_str.begin();
+    std::string::iterator in_str_runner = _in_str.begin();
     std::string temp_token = "";
 
     while (in_str_runner != _in_str.end()){
@@ -28,6 +28,7 @@ void Tokenizer::Tokenize(std::string &_in_str, t_token_list* _tokens){
 			case '-':
 			case '/':
 			case '*':
+            case '%':
                 if (temp_token.length() > 0){
                     _tokens->push_back(temp_token); //Save nr on stack
                     temp_token = "";
@@ -36,8 +37,10 @@ void Tokenizer::Tokenize(std::string &_in_str, t_token_list* _tokens){
                 _tokens->push_back(temp_token);
                 temp_token = "";
                 break;
+            case'\n': //Skip newline
+                break;
 			default:
-                m_errors->push_back(std::string(" --> ERROR; Token not recognized ") + (*in_str_runner) + "\n");
+                log (std::string(" --> ERROR; Token not recognized ") + (*in_str_runner) + "\n");
 		}
 		in_str_runner++;
 	}	

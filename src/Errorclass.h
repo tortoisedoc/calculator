@@ -6,9 +6,11 @@
 class ErrorClass
 {
 protected:
+    std::string m_title;
     t_token_list* m_errors;
 public:
-    ErrorClass(t_token_list &_error_list);
+    ErrorClass(std::string _title, t_token_list &_error_list);
+    void log (std::string _msg);
 };
 
 #endif // ERRORCLASS_H

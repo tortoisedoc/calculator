@@ -14,7 +14,7 @@ private:
     int ParseTerm(t_token_list * _token_list);
     int ParseFactor(t_token_list * _token_list);
 public:
-    Parser(t_token_list &_error_list);
+    Parser(std::string _id, t_token_list &_error_list);
 	~Parser(void);
     void Parse(t_token_list * list);
 };

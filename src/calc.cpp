@@ -17,8 +17,8 @@ int main(int argc, char* argv[]){
     t_token_list token_list;
     std::list<std::string> error_list;
 	std::string temp_input("");
-    Tokenizer * tokenizer = new Tokenizer(error_list);
-    Parser * parser = new Parser(error_list);
+    Tokenizer * tokenizer = new Tokenizer("Tokenizer", error_list);
+    Parser * parser = new Parser("Parser", error_list);
 
 	while (!stop){
         char temp[200] = { 0 };

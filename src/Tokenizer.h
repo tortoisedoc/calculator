@@ -5,7 +5,7 @@
 class Tokenizer: public ErrorClass
 {
 public:
-    Tokenizer(t_token_list &_error_list);
+    Tokenizer(std::string _id, t_token_list &_error_list);
     void Tokenize(std::string &_in_str, t_token_list * _tokens);
 };
 

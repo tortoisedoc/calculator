@@ -3,7 +3,7 @@
 #include "Parser.h"
 #include <istream>
 
-Parser::Parser(t_token_list &_error_list):ErrorClass(_error_list){
+Parser::Parser(std::string _id, t_token_list &_error_list):ErrorClass(_id, _error_list){
 }
 
 
@@ -33,7 +33,7 @@ int Parser::ParseNumber(t_token_list * _token_list){
     if (convertor >> conv_nr)
         return conv_nr;
     else{
-        m_errors->push_back(t_token("Error : Value ") + number_token + t_token(" is not a valid number"));
+        log(t_token("Error : Value ") + number_token + t_token(" is not a valid number"));
         return 0;
     }
 }
@@ -50,14 +50,12 @@ int Parser::ParseExpression(t_token_list * _token_list){
                 }else if (!operation.compare("-")){
                     return first_nr - this->ParseTerm(_token_list);;
                 }
-            }else{
-                m_errors->push_back(t_token ("Error : Expression syntax is incorrect. Operation + or - expected, currently : ") + operation);
             }
-        }else{
-            return first_nr; //Only one Term
         }
+        return first_nr; //Only one Term
     }else{
-        m_errors->push_back(t_token ("Error : Empty expression"));
+        log(t_token ("Error : Empty expression"));
+        return 0;
     }
 }
 
@@ -72,7 +70,7 @@ int Parser::ParseTerm(t_token_list * _token_list){
                     if (dividend != 0)
                         return first_factor / dividend;
                     else{
-                        m_errors->push_back(t_token ("Error : Division by 0"));
+                        log(t_token ("Error : Division by 0"));
                         return 0;
                     }
                 }else if (!operation.compare("%")){
@@ -86,11 +84,9 @@ int Parser::ParseTerm(t_token_list * _token_list){
         }else{
             return first_factor; //Only one factor
         }
-    }else{
-        m_errors->push_back(t_token ("Error : Syntax error, Empty Term"));
-        return 0;
     }
-
+    log(t_token ("Error : Syntax error, Empty Term"));
+    return 0;
 }
 
 int Parser::ParseFactor(t_token_list * _token_list){
@@ -100,13 +96,13 @@ int Parser::ParseFactor(t_token_list * _token_list){
             int result = this->ParseExpression(_token_list);
             if (_token_list->size() > 0){
                 t_token last_token = this->PopList(_token_list);
-                if (!last_token.compare(")")){
-                    m_errors->push_back(t_token ("Error : Missing Closing Bracket! Found instead ") + last_token);
+                if (last_token.compare(")")){
+                    log(t_token ("Error : Missing Closing Bracket! Found instead ") + last_token);
                     return 0;
                 }
                 return result;
             }else{
-                m_errors->push_back(t_token ("Error : Missing Closing Bracket!"));
+                log(t_token ("Error : Missing Closing Bracket!"));
                 return 0;
             }
         }else if (!_token_list->front().compare("-")){
@@ -114,12 +110,13 @@ int Parser::ParseFactor(t_token_list * _token_list){
             if (_token_list->size() > 0)
                 return -1*this->ParseFactor(_token_list);
             else{
-                m_errors->push_back(t_token ("Error : Syntax of negative number is wrong, missing number"));
+                log(t_token ("Error : Syntax of negative number is wrong, missing number"));
                 return 0;
             }
         }else return this->ParseNumber(_token_list);
     }else{
-        m_errors->push_back(t_token ("Error : Empty Factor"));
+        log(t_token ("Error : Empty Factor"));
+        return 0;
     }
 }
 
