@@ -25,7 +25,7 @@ int main(int argc, char* argv[]){
 
         do{
             int readed = read(0, temp, 200);
-            temp_input = temp;
+            temp_input = temp;            
             stop = (temp_input.rfind("\n") == std::string::npos) || (readed == 0);
             if (!stop){
                 error_list.clear(); //Clear error list
@@ -35,7 +35,7 @@ int main(int argc, char* argv[]){
                     if (error_list.size() > 0){
                         std::cout << "Errors :\n";
                         while (error_list.size() > 0){
-                            std::cout << "\t->" << error_list.front();
+                            std::cout << "\t->" << error_list.front() << "\n";
                             error_list.pop_front();
                         }
                     }

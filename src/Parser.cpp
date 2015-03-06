@@ -75,7 +75,11 @@ int Parser::ParseTerm(t_token_list * _token_list){
                         return 0;
                     }
                 }else if (!operation.compare("%")){
-                    return first_factor % this->ParseFactor(_token_list);;
+                    int second_factor = this->ParseFactor(_token_list);
+                    if (first_factor >=0)
+                        return first_factor % second_factor;
+                    else
+                        return second_factor + (first_factor % second_factor);
                 }else if (!operation.compare("*")){
                     return first_factor * this->ParseFactor(_token_list);;
                 }

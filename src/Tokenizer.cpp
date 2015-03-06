@@ -26,7 +26,7 @@ void Tokenizer::Tokenize(std::string &_in_str, t_token_list* _tokens){
             _tokens->push_back(temp_token);
             temp_token = "";
         }else if (*in_str_runner != '\n'){
-           log (std::string(" --> ERROR; Token not recognized ") + (*in_str_runner) + "\n");
+            log (std::string(" --> ERROR; Token not recognized :'") + (*in_str_runner) + "'\n");
 		}
 		in_str_runner++;
 	}	

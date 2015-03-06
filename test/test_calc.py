@@ -1,8 +1,11 @@
 import os
+import sys
 import subprocess
 import logging
 from  unittest import TestCase
 from  unittest import main
+
+_EXE_TARGET = "../bin/qtcreator/debug/app/calc"
 
 class BaseTest (TestCase):
 
@@ -10,7 +13,7 @@ class BaseTest (TestCase):
         TestCase.__init__(self, arg)
         logging.basicConfig(level=logging.DEBUG, format=' %(levelname)s : %(asctime)s : %(message)s')
         self.base_dir = os.path.dirname(os.path.realpath(__file__))
-        self.exe_path = os.path.join (self.base_dir, "../bin/qtcreator/release/app/calc")
+        self.exe_path = os.path.join (self.base_dir, _EXE_TARGET)
 
     def __send_process_command (self, _cmd):
         logging.debug ("Sending %s ...." % _cmd)
@@ -38,6 +41,11 @@ class BaseTest (TestCase):
         test_result = self.__send_process_command(input)
         self.assertEqual(test_result, expected_result)
 
+
+    def execute_failing_test (self, input, expected_result):
+        test_result = self.__send_process_command(input)
+        self.assertNotEqual(test_result, expected_result)
+
 class FunctionalTests(BaseTest):
 
     def test_multiplication(self):
@@ -58,13 +66,26 @@ class FunctionalTests(BaseTest):
     def test_division_negative_round_down(self):
         self.execute_test("-8/3", "-3")
 
+    def test_mod(self):
+        self.execute_test("8%3", "2")
+
+    def test_mod_negative(self):
+        self.execute_test("-8%3", "1")
+
     def test_division(self):
         self.execute_test("12%7", "5")
 
     def test_composite(self):
         self.execute_test("3+3*(12/4)", "12")
 
+    def test_whitespace(self):
+        self.execute_failing_test("3+ 3", "6")
 
+    def test_syntax_error(self):
+        self.execute_failing_test("3+3+", "6")
+
+    def test_sum_with_negative_nr(self):
+        self.execute_test("3+-1", "2")
 
 class AcceptanceTests(BaseTest):
 
@@ -75,4 +96,8 @@ class AcceptanceTests(BaseTest):
         self.execute_test("0-123", "-123")
 
 if __name__ == '__main__':
-    main()
+    if len(sys.argv) > 1: #use debug target if the script is called with an argument
+        _EXE_TARGET = "../bin/qtcreator/debug/app/calc"
+        main(argv=sys.argv[1:])
+    else:
+        main()
