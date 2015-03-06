@@ -6,7 +6,7 @@ NOTES:
   * You can download a zipped archive from the link on the right side of the repository page
   * A binary precompiled file (Ubuntu 12.04 LTS, x86_64) can be found in:
     - bin/qtcreator/release/app/calc
-  * the build is a x64_64 and NOT 32 bit one.
+  * the build is a x86_64 and NOT 32 bit one.
   * the build has been generated with QtCreator (without Qt dependencies)
   * the calculator supports a single root expression,
     meaning: 3+3+3 will not be parsed, but (3+3)+3 will
