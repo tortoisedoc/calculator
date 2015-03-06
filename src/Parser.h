@@ -6,7 +6,6 @@ class Parser: public ErrorClass
 {
 private:
     t_token PopList(t_token_list * _token_list);
-    bool isInSet(std::string _set, t_token _token);
     bool isAddOp(char _digit);
     int ParseNumber(t_token_list * _token_list);
     int ParseAddOp(t_token_list * _token_list);

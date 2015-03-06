@@ -10,7 +10,7 @@ class BaseTest (TestCase):
         TestCase.__init__(self, arg)
         logging.basicConfig(level=logging.DEBUG, format=' %(levelname)s : %(asctime)s : %(message)s')
         self.base_dir = os.path.dirname(os.path.realpath(__file__))
-        self.exe_path = os.path.join (self.base_dir, "../bin/qtcreator/debug/app/calc")
+        self.exe_path = os.path.join (self.base_dir, "../bin/qtcreator/release/app/calc")
 
     def __send_process_command (self, _cmd):
         logging.debug ("Sending %s ...." % _cmd)

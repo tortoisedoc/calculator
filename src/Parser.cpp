@@ -1,6 +1,7 @@
 
 #include "stdafx.h"
 #include "Parser.h"
+#include "utils.h"
 #include <istream>
 #include <cmath>
 
@@ -23,9 +24,6 @@ t_token Parser::PopList(t_token_list *_token_list){
     _token_list->pop_front();
     return token;
 }
-bool Parser::isInSet(std::string _set, t_token _token){
-    return _set.find(_token) != std::string::npos;
-}
 
 int Parser::ParseNumber(t_token_list * _token_list){
     t_token number_token = this->PopList(_token_list);
@@ -44,7 +42,7 @@ int Parser::ParseExpression(t_token_list * _token_list){
         int first_nr = this->ParseTerm(_token_list);
         t_token operation = "";
         if (_token_list->size() > 0){
-            if (this->isInSet("+-", _token_list->front())){ //Check for + / -
+            if (Utils::IsInSet("+-", _token_list->front())){ //Check for + / -
                 operation = this->PopList(_token_list);
                 if (!operation.compare("+")){
                     return first_nr + this->ParseTerm(_token_list);;
@@ -64,7 +62,7 @@ int Parser::ParseTerm(t_token_list * _token_list){
     if (_token_list->size() > 0){
         int first_factor = this->ParseFactor(_token_list);
         if (_token_list->size() > 0){
-            if (this->isInSet("/*%", _token_list->front())){ //Check if correct multiplication operation is present
+            if (Utils::IsInSet("/*%", _token_list->front())){ //Check if correct multiplication operation is present
                 t_token operation = this->PopList(_token_list);
                 if (!operation.compare("/")){
                     int dividend = this->ParseFactor(_token_list);
